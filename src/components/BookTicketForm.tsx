@@ -64,7 +64,7 @@ const BookTicketForm = ({ flight }) => {
                 `/api/ticket?ticket_id=TI${randomNum}&flight_id=${
                   flight.flight_id
                 }&traveler_id=T${id_value}&seating_list=10&cabin_rating=${cabin_rating}&time=${dayjs(
-                  flight.time
+                  flight.start_time
                 ).format("YYYY-MM-DD HH:mm:ss")}&status=1`,
                 {
                   method: "POST",

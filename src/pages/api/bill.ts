@@ -18,7 +18,7 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
   }
 
   const searchBill = sqlstring.format(
-    `SELECT * FROM bill WHERE ticket_id = ? ;`,
+    `SELECT * FROM ticket_bill_view WHERE ticket_id = ? ;`,
     [ticket_id]
   );
 

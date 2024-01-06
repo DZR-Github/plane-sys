@@ -18,8 +18,8 @@ const Forms = [
   { Form: <form /> },
   { Form: <DeleteTicketForm /> },
   { Form: <CreateBillForm /> },
-  { Form: <ChangeFlightForm /> },
   { Form: <CreateFlightForm /> },
+  { Form: <ChangeFlightForm /> },
 ];
 
 export default function AlertDialog({

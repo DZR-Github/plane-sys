@@ -2,7 +2,6 @@ import { Button, Dialog, TextField } from "@mui/material";
 import { useState } from "react";
 import AlertDialog from "../components/Dialog";
 import TicketTable from "../components/TicketTable";
-
 import { toast } from "react-toastify";
 
 interface ticketType {

@@ -89,8 +89,70 @@ async function searchFlight(req: NextRequest, event: NextFetchEvent) {
 
     return new Response(JSON.stringify({ flight: rows }), { status: 200 });
   } catch (e) {
-    console.error(e);
     return new Response("page not found", {
+      status: 404,
+    });
+  } finally {
+    event.waitUntil(pool.end());
+  }
+}
+
+async function updateFlight(req: NextRequest, event: NextFetchEvent) {
+  const { searchParams } = new URL(req.url);
+
+  const flight_id = searchParams.get("flight_id");
+  const plane_id = searchParams.get("plane_id");
+  const start_location = searchParams.get("start_location");
+  const end_location = searchParams.get("end_location");
+  const start_time = searchParams.get("start_time");
+  const duration = searchParams.get("duration");
+  const seat_left = searchParams.get("seat_left");
+
+  if (
+    !flight_id ||
+    !plane_id ||
+    !start_location ||
+    !end_location ||
+    !start_time ||
+    !seat_left ||
+    !duration
+  ) {
+    return new Response("page not found", {
+      status: 404,
+    });
+  }
+
+  const updateFlightQuery = sqlstring.format(
+    `UPDATE flight
+    SET plane_id = ?,
+        start_location = ?,
+        end_location = ?,
+        start_time = ?,
+        seat_left = ?,
+        duration = ?
+    WHERE flight_id = ?;`,
+    [
+      plane_id,
+      start_location,
+      end_location,
+      start_time,
+      seat_left,
+      duration,
+      flight_id,
+    ]
+  );
+
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+  });
+
+  try {
+    await pool.query(updateFlightQuery);
+
+    return new Response(JSON.stringify({ msg: "ok" }), { status: 200 });
+  } catch (e) {
+    console.error(e);
+    return new Response("Page not found", {
       status: 404,
     });
   } finally {
@@ -105,6 +167,10 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
 
   if (req.method === "GET") {
     return searchFlight(req, event);
+  }
+
+  if (req.method === "PUT") {
+    return updateFlight(req, event);
   }
   return new Response("Invalid method", {
     status: 405,
