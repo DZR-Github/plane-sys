@@ -80,7 +80,7 @@ async function searchFlight(req: NextRequest, event: NextFetchEvent) {
   });
 
   const getFlightQuery = sqlstring.format(
-    `SELECT * FROM flight WHERE start_location=? and end_location=?;`,
+    `SELECT * FROM flight_plane WHERE start_location=? and end_location=?;`,
     [start_location, end_location]
   );
 

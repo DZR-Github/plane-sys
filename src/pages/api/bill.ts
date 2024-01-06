@@ -29,7 +29,7 @@ export default async function handler(req: NextRequest, event: NextFetchEvent) {
   try {
     const { rows } = await pool.query(searchBill);
 
-    return new Response(JSON.stringify({ bill: rows }), {
+    return new Response(JSON.stringify({ bill: rows[0] }), {
       status: 200,
     });
   } catch (e) {
