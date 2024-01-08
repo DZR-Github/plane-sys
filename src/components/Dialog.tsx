@@ -6,6 +6,7 @@ import DeleteTicketForm from "./DeleteTicketForm";
 import CreateBillForm from "./CreateBillForm";
 import ChangeFlightForm from "./ChangeFlightForm";
 import CreateFlightForm from "./CreateFlightForm";
+import GetTicketForm from "./GetTicketForm";
 
 interface AlertDialogProps {
   open: boolean;
@@ -20,6 +21,7 @@ const Forms = [
   { Form: <CreateBillForm /> },
   { Form: <CreateFlightForm /> },
   { Form: <ChangeFlightForm /> },
+  { Form: <GetTicketForm /> },
 ];
 
 export default function AlertDialog({

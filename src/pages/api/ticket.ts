@@ -26,7 +26,6 @@ async function createTicket(req: NextRequest, event: NextFetchEvent) {
     !time ||
     !status
   ) {
-    console.log(1);
     return new Response("page not found", {
       status: 404,
     });
@@ -98,7 +97,44 @@ async function deleteTicket(req: NextRequest, event: NextFetchEvent) {
   }
 }
 
+async function getTicket(req: NextRequest, event: NextFetchEvent) {
+  const { searchParams } = new URL(req.url);
+
+  const id_value = searchParams.get("id_value");
+  const name = searchParams.get("name");
+
+  if (!id_value || !name) {
+    return new Response("page not found", {
+      status: 404,
+    });
+  }
+
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+  });
+
+  const getTicketQuery = sqlstring.format(
+    `SELECT * FROM ticket_bill_traveler_view WHERE id_value=? and name=?;`,
+    [id_value, name]
+  );
+
+  try {
+    const { rows } = await pool.query(getTicketQuery);
+
+    return new Response(JSON.stringify({ ticket: rows }), { status: 200 });
+  } catch (e) {
+    return new Response("page not found", {
+      status: 404,
+    });
+  } finally {
+    event.waitUntil(pool.end());
+  }
+}
+
 export default async function handler(req: NextRequest, event: NextFetchEvent) {
+  if (req.method === "GET") {
+    return getTicket(req, event);
+  }
   if (req.method === "POST") {
     return createTicket(req, event);
   }

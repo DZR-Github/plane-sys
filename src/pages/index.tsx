@@ -47,6 +47,11 @@ export default function Home() {
     setOpen(true);
   };
 
+  const handleGetTicket = () => {
+    setFormIndex(5);
+    setOpen(true);
+  };
+
   const handleDialogClose = () => {
     setOpen(false);
   };
@@ -103,6 +108,12 @@ export default function Home() {
             <p className="text-center text-[1.5rem] font-extrabold w-full">
               乘客专区
             </p>
+            <div
+              onClick={handleGetTicket}
+              className="bg-slate-300 w-[200px] h-[200px] inline-block m-4 leading-[200px] rounded text-[2rem] cursor-pointer"
+            >
+              机票查询
+            </div>
             <div
               onClick={handleDeleteTicket}
               className="bg-slate-300 w-[200px] h-[200px] inline-block m-4 leading-[200px] rounded text-[2rem] cursor-pointer"
